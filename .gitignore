@@ -9,13 +9,12 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
-dist
 dist-ssr
 coverage
 *.local
 .yarn
 .pnp.cjs
-.pnp.loader.cjs
+.pnp.loader.mjs
 
 /cypress/videos/
 /cypress/screenshots/
