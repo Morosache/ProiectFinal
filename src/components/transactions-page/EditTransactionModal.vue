@@ -48,7 +48,7 @@
   <div
     class="fixed inset-0 z-[100] flex justify-center items-center backdrop-blur-sm"
   >
-    <div class="bg-[#f5f5f5] w-[600px] h-[600px] rounded-lg flex flex-col justify-center ">
+    <div class="bg-gray-100 w-[600px] h-[600px] rounded-lg flex flex-col justify-center ">
       <div class="flex flex-row items-center justify-between mx-[30px]">
         <h1 class="text-[25px] text-center font-medium my-[30px]">
           Edit Transaction

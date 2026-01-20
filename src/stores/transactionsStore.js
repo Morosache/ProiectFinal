@@ -13,10 +13,12 @@ export const useTransaction = defineStore('transaction', {
                 ...transaction,
                 id: this.nextId++
             })
+             localStorage.setItem("transactions", JSON.stringify(this.transactions))
         },
 
         removeTransaction(id) {
             this.transactions = this.transactions.filter(transaction => transaction.id !== id)
+             localStorage.setItem("transactions", JSON.stringify(this.transactions))
         },
 
         editTransaction(id, updatedTransaction) {
@@ -28,6 +30,8 @@ export const useTransaction = defineStore('transaction', {
                     return transaction;
                  }
             })
+             localStorage.setItem("transactions", JSON.stringify(this.transactions))
+
         }
     }
     }

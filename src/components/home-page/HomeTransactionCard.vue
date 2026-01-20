@@ -1,10 +1,11 @@
 <script setup>
 import NewTransactionModal from '../transactions-page/NewTransactionModal.vue';
 import EditTransactionModal from '../transactions-page/EditTransactionModal.vue';
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Pencil } from 'lucide-vue-next';
 import { Trash } from 'lucide-vue-next';
 import {useTransaction} from '@/stores/transactionsStore'
+
 
 defineProps({
     transaction: {
@@ -22,6 +23,11 @@ defineProps({
 const transactionStore = useTransaction();
 const isAddModalOpen = ref(false);
 const isEditModalOpen = ref(false);
+
+onMounted(() => {
+  const transactions = localStorage.getItem("transactions")
+  if(transactions) transactionStore.transactions = JSON.parse(transactions);
+})
 
 </script>
 
@@ -62,14 +68,12 @@ const isEditModalOpen = ref(false);
     </button>
 
     <Teleport to="body">
-      <Teleport to="body">
-    <EditTransactionModal
-    v-if="isEditModalOpen"
-      :transaction="transaction" 
-      :transactionId="transactionId"
-      @close="isEditModalOpen = false"
-  />
-</Teleport>
+      <EditTransactionModal
+        v-if="isEditModalOpen"
+        :transaction="transaction" 
+        :transaction-id="transactionId"
+        @close="isEditModalOpen = false"
+      />
     </Teleport>
   
     <button

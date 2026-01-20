@@ -1,8 +1,9 @@
 <script setup>
 import { Pencil } from 'lucide-vue-next'
 import { Trash } from 'lucide-vue-next'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useIncome } from '@/stores/incomeStore.js'
+import EditIncome from './EditIncome.vue'
 
 const incomeStore = useIncome();
 
@@ -10,12 +11,19 @@ const props = defineProps({
     incomes: {
         type: Array,
         required: true
-    }
+    },
 })
+const isEditIncomeModalOpen = ref(false)
+const selectedIncome = ref(null)
 
 const latestIncome = computed(() => {
   return[...props.incomes].reverse()
 })
+
+const openEditModal = (income) => {
+  selectedIncome.value = income
+  isEditIncomeModalOpen.value = true
+}
 </script>
 
 <template>
@@ -54,9 +62,24 @@ const latestIncome = computed(() => {
           </p>
           <p>{{ income.category }}</p>
           <p>{{ income.observation }}</p>
-          <Pencil class="w-[15px] h-[15px] justify-self-end" />
+          <button
+            type="button"
+            @click="openEditModal(income)"
+          >
+            <Pencil class="w-[15px] h-[15px] justify-self-end" />
+          </button>
+
+          <Teleport to="body">
+            <EditIncome
+              v-if="isEditIncomeModalOpen"
+              :income="selectedIncome"
+              :income-id="selectedIncome.id"
+              @close="isEditIncomeModalOpen = false"
+            />
+          </Teleport>
+  
           <button @click="incomeStore.removeIncome(income.id)">
-          <Trash class="w-[15px] h-[15px] justify-self-end mr-[20px]" />
+            <Trash class="w-[15px] h-[15px] justify-self-end mr-[20px]" />
           </button>
         </div>
       </div>

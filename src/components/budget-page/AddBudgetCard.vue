@@ -5,6 +5,8 @@ import { useIncome } from '@/stores/incomeStore.js'
 
 const incomeStore = useIncome();
 
+
+//
 const incomeData = ref({
   amount:0,
   category:'',

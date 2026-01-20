@@ -11,7 +11,7 @@ import BudgetStatisticsCard from '@/components/budget-page/BudgetStatisticsCard.
     <div class="ml-[185px] flex flex-row  gap-[30px] justify-center items-center mt-[40px]"> 
       <div class="flex flex-col justify-center items-center gap-[30px]">
         <NewTransactionCard />
-        <LatestTransactionsCard title="All transactions"/>
+        <LatestTransactionsCard title="All transactions" />
       </div>
       <BudgetStatisticsCard />      
     </div>
