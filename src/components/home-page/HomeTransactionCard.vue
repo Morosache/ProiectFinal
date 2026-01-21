@@ -24,10 +24,6 @@ const transactionStore = useTransaction();
 const isAddModalOpen = ref(false);
 const isEditModalOpen = ref(false);
 
-onMounted(() => {
-  const transactions = localStorage.getItem("transactions")
-  if(transactions) transactionStore.transactions = JSON.parse(transactions);
-})
 
 </script>
 

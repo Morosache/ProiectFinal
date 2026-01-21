@@ -2,6 +2,7 @@
   "recommendations": [
     "Vue.volar",
     "arcanis.vscode-zipfs",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
   ]
 }

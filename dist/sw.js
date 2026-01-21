@@ -82,22 +82,19 @@ define(['./workbox-7f60d0f7'], (function (workbox) { 'use strict';
     "revision": "94d4f55cfd9ef76c5c6df645bba7a555"
   }, {
     "url": "index.html",
-    "revision": "44b507570ad0cd9635d6fc97b2136817"
+    "revision": "2d4e663d9a46d3342ab39797822e5ba7"
   }, {
-    "url": "assets/index-CXc5U4zH.css",
+    "url": "assets/index-D8kysveW.js",
     "revision": null
   }, {
-    "url": "assets/index-BzAp4uZT.js",
+    "url": "assets/index-CfzlJZIH.css",
     "revision": null
-  }, {
-    "url": "favicon.ico",
-    "revision": "1ba2ae710d927f13d483fd5d1e548c9b"
   }, {
     "url": "icons/logo.png",
     "revision": "8fbb3030326d4433835c73b75ebec07c"
   }, {
     "url": "manifest.webmanifest",
-    "revision": "cafe36f9aba0382dcd2b4c6af3a90989"
+    "revision": "c157f9722fe891ab626265ee8a6fa2af"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html")));

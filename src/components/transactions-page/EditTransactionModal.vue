@@ -6,7 +6,7 @@
 
     import { X } from 'lucide-vue-next'
     import { useTransaction } from '@/stores/transactionsStore';
-    import { ref, watch } from 'vue'
+    import { ref, watch, computed } from 'vue'
 
     const transactionStore = useTransaction();
     const emit = defineEmits(['close']);
@@ -27,16 +27,30 @@
     }
 })
 
+  
     const updatedTransactionData = ref({ ...props.transaction})
+
+    const isFormValid = computed(() => {
+  return updatedTransactionData.value.date && 
+         updatedTransactionData.value.name && 
+         updatedTransactionData.value.price > 0 &&
+         updatedTransactionData.value.category &&
+         updatedTransactionData.value.isNeed &&
+         updatedTransactionData.value.paymentMethod 
+})
 
     watch(() => props.transaction, (newVal) => {
       updatedTransactionData.value = { ...newVal }
     }, {deep: true})
 
     const editTransaction = () => {
+      if(isFormValid.value){
         transactionStore.editTransaction(props.transactionId, updatedTransactionData.value)
-        console.log(props.transactionId)
         emit('close')
+      }
+      else {
+        alert('You need to complete all the fields')
+      }
     }
 
 

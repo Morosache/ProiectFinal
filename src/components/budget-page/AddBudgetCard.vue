@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import GenericButton from '../buttons/GenericButton.vue';
 import { useIncome } from '@/stores/incomeStore.js'
 
@@ -14,15 +14,25 @@ const incomeData = ref({
   observation:'',
 })
 
-const handleNewIncome = () => {
-  incomeStore.addIncome({...incomeData.value});
+const isFormValid = computed(() => {
+  return incomeData.value.amount > 0 && 
+         incomeData.value.category && 
+         incomeData.value.source
+})
 
+const handleNewIncome = () => {
+  if(isFormValid.value){
+  incomeStore.addIncome({...incomeData.value});
   incomeData.value = {
   amount:0,
   category:'',
   source:'',
   observation:'',
 }
+  }
+  else {
+    alert('You need to complete all the fields')
+  }
 }
 </script>
 

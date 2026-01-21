@@ -6,7 +6,7 @@
 
     import { X } from 'lucide-vue-next'
     import { useTransaction } from '@/stores/transactionsStore';
-    import { ref } from 'vue'
+    import { ref, computed} from 'vue'
 
     const transactionStore = useTransaction();
     const emit = defineEmits(['close']);
@@ -15,6 +15,14 @@
       emit('close');
     }
 
+    const isFormValid = computed(() => {
+  return transactionData.value.date && 
+         transactionData.value.name && 
+         transactionData.value.price > 0 &&
+         transactionData.value.category &&
+         transactionData.value.isNeed &&
+         transactionData.value.paymentMethod 
+})
 
     const transactionData = ref({
         date:'',
@@ -25,8 +33,13 @@
         paymentMethod:''
     })
     const handleAdd = () => {
+      if(isFormValid.value) {
       transactionStore.addTransaction(transactionData.value);
       emit('close');
+      }
+      else {
+        alert('You need to complete all the fields');
+      }
     }
 </script>
 

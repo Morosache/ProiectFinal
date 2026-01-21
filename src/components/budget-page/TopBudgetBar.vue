@@ -1,13 +1,19 @@
 <script setup>
+import { useBalance } from '@/stores/balanceStore';
+import { useIncome } from '@/stores/incomeStore';
 import { Banknote } from 'lucide-vue-next';
 import { CreditCard } from 'lucide-vue-next';
 import { PiggyBank } from 'lucide-vue-next';
-import { ref } from 'vue'
+import { watch } from 'vue'
+const balanceStore = useBalance();
+const incomeStore = useIncome();
 
-const budgetCash = ref('$92,30');
-const budgetCard = ref('$1283,23')
-const economiesBudget = ref('$28,543.92')
+watch(() => {
+  if(incomeStore.economiesBudget > 1000){
+    alert('Congratulations! You have 1000 worth of economies')
+  }
 
+})
 
 </script>
 
@@ -20,19 +26,19 @@ const economiesBudget = ref('$28,543.92')
       <div class="flex flex-row gap-1">
         <Banknote />
         <p class="font-semibold text-[16px]">
-          Cash: {{ budgetCash }}
+          Cash: {{ balanceStore.totalCashBalance }} RON
         </p>
       </div>
       <div class=" flex flex-row gap-1">
         <CreditCard />
         <p class="font-semibold">
-          Card: {{ budgetCard }}
+          Card: {{ balanceStore.totalCardBalance }} RON
         </p>
       </div>
       <div class="flex flex-row gap-1">
         <PiggyBank />
         <p class="font-semibold">
-          Economies: {{ economiesBudget }}
+          Economies: {{ incomeStore.economiesBudget }} RON
         </p>
       </div>
     </div>

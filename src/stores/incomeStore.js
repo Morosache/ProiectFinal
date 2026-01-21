@@ -27,9 +27,19 @@ export const useIncome = defineStore('income', {
                     return income;
                  }
             })
-             localStorage.setItem("incomes", JSON.stringify(this.incomes))
 
         }
+    }),
+
+    getters: ({
+        totalBudget: (state) => state.incomes.reduce((total, item) => total + Number(item.amount), 0),
+
+        cashBudget: (state) => state.incomes.filter(item => item.category === 'Cash').reduce((total, item) => total + Number(item.amount), 0),
+
+        cardBudget: (state) => state.incomes.filter(item => item.category === 'Card').reduce((total, item) => total + Number(item.amount), 0),
+        
+        economiesBudget: (state) => state.incomes.filter(item => item.category === 'Economies').reduce((total, item) => total + Number(item.amount), 0),
+
     })
 
 })
