@@ -1,0 +1,16 @@
+import { Sequelize, DataTypes } from "sequelize";
+const db = {
+  NAME: "task",
+  USERNAME: "task",
+  PASSWORD: "task",
+  
+  options: {
+    dialect: "mysql",
+    timezone: "+00:00",
+    host: "mysql.taskproject",
+    port: 3306,
+    logging: function (str) {
+      console.log(str);
+    },
+  },
+};

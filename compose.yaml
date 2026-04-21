@@ -1,17 +1,69 @@
 services:
   app:
-    build: .docker
+    build: .docker/app
     stdin_open: true
     tty: true
+    container_name: app.moneytrack
     environment:
       NODE_ENV: development
-      CHOKIDAR_USEPOLLING: "true"
-      CHOKIDAR_INTERVAL: "100"
+      CHOKIDAR_USEPOLLING: true
+      CHOKIDAR_INTERVAL: 100
     ports:
-      - "5173:5173"
+      - "5174:5174"
     volumes:
-      - .:/app
+      - ./:/moneytrack
       # exclude
-      - /app/.git/
-    working_dir: /app
-    user: "1000:1000"
+      # - /app/.git/
+    working_dir: /moneytrack/app
+    user: 1000:1000
+  api:
+    build: .docker/api
+    stdin_open: true
+    tty: true
+    container_name: api.moneytrack
+    environment:
+      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: true
+      CHOKIDAR_INTERVAL: 100
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./:/moneytrack
+      # exclude
+      # - /api/.git/
+    working_dir: /moneytrack/api
+    user: 1000:1000
+
+  
+  mysql:
+    build: .docker/mysql
+    container_name: mysql.moneytrack
+    ports:
+      - "3307:3307"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: moneytrack
+      MYSQL_USER: moneytrack
+      MYSQL_PASSWORD: moneytrack
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./.docker/mysql/utf8mb4.cnf:/etc/mysql/conf.d/utf8mb4.cnf:ro
+      - ./.docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./database:/database:rw
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.3
+    container_name: pma.moneytrack
+    ports:
+      - "8089:80"
+    environment:
+      PMA_HOST: mysql.moneytrack
+      PMA_USER: money
+      PMA_PASSWORD: money
+      UPLOAD_LIMIT: 250M
+    restart: always
+    
+volumes:
+  mysql_data:
+    driver: local
