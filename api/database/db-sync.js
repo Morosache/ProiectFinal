@@ -1,7 +1,10 @@
 import { sequelize } from "./db.js";
 import { Category } from "./entities/category.model.js";
+import { Income } from "./entities/income.model.js"
 import "./entities/user.model.js";
 import "./entities/transaction.model.js";
+import "./entities/income.model.js"
+import "./entities/transfer.model.js";
 import "./index.js"; // relatiile
 
 sequelize.sync({ force: true }).then(async () => {

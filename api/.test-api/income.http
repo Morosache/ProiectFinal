@@ -1,0 +1,30 @@
+@mainUrl = http://localhost:3000
+
+### GET all transaction
+GET {{mainUrl}}/incomes
+Content-Type: application/json 
+
+### POST transaction
+POST {{mainUrl}}/incomes
+Content-Type:application/json
+
+
+{
+  "amount": 134,
+  "source": "investment",
+  "observations": "observation",
+  "category": "Card"
+}
+
+### PUT transaction
+
+PUT {{mainUrl}}/incomes/2
+Content-Type: application/json
+
+{
+  "source": "Salary",
+  "amount": 200
+} 
+
+### DELETE TRANSACTION
+DELETE {{mainUrl}}/incomes/1

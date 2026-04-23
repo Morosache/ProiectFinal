@@ -1,43 +1,27 @@
-import { defineStore } from 'pinia';
-import { useIncome } from './incomeStore';
+import { defineStore } from 'pinia'
+import axios from 'axios'
 
+const API = 'http://localhost:3000'
 
 export const useTransfers = defineStore('transfer', {
-    
-    state: () =>  ({
+    state: () => ({
         transfers: [],
-        nextId: 1,
     }),
 
     actions: {
-           addTransfer(transfer) {
-            this.transfers.push({
-                ...transfer,
-                id: this.nextId++
-            })
-        },  
-        removeTransfer(id) {
-            this.transfers = this.transfers.filter(transfer => transfer.id !== id)
+        async fetchTransfers() {
+            const { data } = await axios.get(`${API}/transfers`)
+            this.transfers = data
         },
 
-        cashToCard(amount) {
-            const incomeStore = useIncome();
-            const value = Number(amount)
-
-            if(incomeStore.cashBalance >= value) {
-            incomeStore.cardBalance += value;
-            incomeStore.cashBalance -= value;
-            }
+        async addTransfer(transfer) {
+            const { data } = await axios.post(`${API}/transfers`, transfer)
+            this.transfers.push(data)
         },
 
-        cardToCash(amount) {
-            const incomeStore = useIncome();
-            const value = Number(amount)
-
-            if(incomeStore.cardBalance >= value) {
-            incomeStore.cashBalance += value;
-            incomeStore.cardBalance -= value;
-            }
-        }
+        async removeTransfer(id) {
+            await axios.delete(`${API}/transfers/delete/${id}`)
+            this.transfers = this.transfers.filter(t => t.id !== id)
+        },
     },
 })

@@ -4,14 +4,8 @@ import NewTransactionCard from '@/components/home-page/NewTransactionCard.vue';
 import StatisticsCard from '@/components/home-page/StatisticsCard.vue';
 import TopHomeBar from '@/components/home-page/TopHomeBar.vue';
 
-import { onMounted } from 'vue'
-import { useTransaction } from '@/stores/transactionsStore';
 
-const transactionsStore = useTransaction()
 
-onMounted(async () => {
-  await transactionsStore.fetchTransactions()
-})
 </script>
 
 <template>

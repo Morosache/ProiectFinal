@@ -20,9 +20,12 @@ const isFormValid = computed(() => {
          incomeData.value.source
 })
 
-const handleNewIncome = () => {
+const handleNewIncome = async () => {
+  console.log('date trimise:', incomeData.value)
   if(isFormValid.value){
   incomeStore.addIncome({...incomeData.value});
+
+
   incomeData.value = {
   amount:0,
   category:'',

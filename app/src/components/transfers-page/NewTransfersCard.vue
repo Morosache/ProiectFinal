@@ -12,12 +12,8 @@ const transferData = ref({
   destination: ''
 })
 
-const handleAddTransfer = () => {
-  transfersStore.addTransfer(transferData.value)
-
-  if(transferData.value.source === 'Cash') {
-    transfersStore.cashToCard(transferData.value.amount)
-  }
+const handleAddTransfer = async () => {
+ await transfersStore.addTransfer(transferData.value)
 }
 
 </script>

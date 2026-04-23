@@ -23,7 +23,7 @@ export const useAuth = defineStore("auth", {
                 }
             } catch (error) {
                 this.isAuthenticated = false
-                return "An error occurred. Please try again."
+                return error
             }
         },
         logout() {
