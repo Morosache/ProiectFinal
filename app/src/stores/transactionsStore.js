@@ -1,42 +1,43 @@
-import {defineStore} from 'pinia'
+import { defineStore } from 'pinia'
+import axios from 'axios'
 
+const API = "http://localhost:3000"
 export const useTransaction = defineStore('transaction', {
     state: () => ({
         transactions: [],
-        nextId: 1,
     }),
 
     actions: {
 
-        addTransaction(transaction) {
-            this.transactions.push({
-                ...transaction,
-                id: this.nextId++
-            })
+        async fetchTransactions() {
+            const { data } = await axios.get(`${API}/transactions`)
+            console.log('raspuns API:', data)
+            this.transactions = data
         },
 
-        removeTransaction(id) {
+        async addTransaction(transaction) {
+            const { data } = await axios.post(`${API}/transactions`, transaction)
+            this.transactions.push(data)
+        },
+
+        async removeTransaction(id) {
+            await axios.delete(`${API}/transactions/delete/${id}`)
             this.transactions = this.transactions.filter(transaction => transaction.id !== id)
         },
 
-        editTransaction(id, updatedTransaction) {
-            this.transactions = this.transactions.map(transaction =>{
-                 if(transaction.id === id){
-                    return { ...updatedTransaction, id};
-                 }
-                 else {
-                    return transaction;
-                 }
-            })
-        }
+        async editTransaction(id, updatedTransaction) {
+            const { data } = await axios.put(`${API}/transactions/update/${id}`, updatedTransaction)
+             console.log('raspuns edit:', data)
+            this.transactions = this.transactions.map(transaction => transaction.id === id ? data : transaction)
+        },
     },
 
     getters: {
         transactionCost: (state) => state.transactions.reduce((total, item) => total + Number(item.price), 0),
 
         cashTransactionCost: (state) => state.transactions.filter(item => item.paymentMethod === 'Cash').reduce((total, item) => total + Number(item.price), 0),
-        
+
         cardTransactionCost: (state) => state.transactions.filter(item => item.paymentMethod === 'Card').reduce((total, item) => total + Number(item.price), 0),
-}
     }
+}
 )

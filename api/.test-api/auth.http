@@ -1,0 +1,14 @@
+@mainUrl = http://localhost:3000/auth
+
+###
+#
+POST {{mainUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "eliseimorosan@gmail.com",
+  "password": "eli"
+}
+
+###
+#

@@ -34,7 +34,7 @@
   return updatedTransactionData.value.date && 
          updatedTransactionData.value.name && 
          updatedTransactionData.value.price > 0 &&
-         updatedTransactionData.value.category &&
+         updatedTransactionData.value.categoryId &&
          updatedTransactionData.value.isNeed &&
          updatedTransactionData.value.paymentMethod 
 })
@@ -101,7 +101,7 @@
             />
           </div>
           <SelectCategory 
-            v-model="updatedTransactionData.category"
+            v-model="updatedTransactionData.categoryId"
           />
           <SelectIsNeed 
             v-model="updatedTransactionData.isNeed"

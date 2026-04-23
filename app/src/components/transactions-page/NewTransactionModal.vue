@@ -19,7 +19,7 @@
   return transactionData.value.date && 
          transactionData.value.name && 
          transactionData.value.price > 0 &&
-         transactionData.value.category &&
+         transactionData.value.categoryId &&
          transactionData.value.isNeed &&
          transactionData.value.paymentMethod 
 })
@@ -28,11 +28,12 @@
         date:'',
         name:'',
         price: 0,
-        category:'',
+        categoryId:'',
         isNeed:'',
         paymentMethod:''
     })
     const handleAdd = () => {
+       console.log('date trimise:', transactionData.value) 
       if(isFormValid.value) {
       transactionStore.addTransaction(transactionData.value);
       emit('close');
@@ -86,7 +87,7 @@
             />
           </div>
           <SelectCategory 
-            v-model="transactionData.category"
+            v-model="transactionData.categoryId"
           />
           <SelectIsNeed 
             v-model="transactionData.isNeed"

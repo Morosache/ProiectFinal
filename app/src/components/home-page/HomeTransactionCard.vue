@@ -48,7 +48,7 @@ const isEditModalOpen = ref(false);
       {{ transaction.price }}
     </p>
     <p class="text-[13px] font-medium">
-      {{ transaction.category }}
+      {{ transaction.Category?.name }}
     </p>
     <p class="text-[13px] font-medium">
       {{ transaction.isNeed }}

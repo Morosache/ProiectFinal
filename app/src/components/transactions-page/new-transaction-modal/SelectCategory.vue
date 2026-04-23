@@ -1,10 +1,20 @@
 <script setup>
+import { ref ,onMounted } from 'vue'
+import axios from 'axios'
 defineProps ({
         inputType: [String, Number, Date],
         modelValue:[String, Number, Date]
     })
 
 const emit = defineEmits(['update:modelValue'])
+
+const categories = ref([])
+
+onMounted(async () => {
+  const { data } = await axios.get('http://localhost:3000/categories')
+  categories.value = data
+})
+
 </script>
 
 <template>
@@ -14,29 +24,13 @@ const emit = defineEmits(['update:modelValue'])
       :type="inputType"
       :value="modelValue"
       class="w-[300px] h-[45px] border border-gray-300 rounded-lg px-3 focus:outline-none text-gray-700"
-      @input="emit('update:modelValue', $event.target.value)"
+      @input="emit('update:modelValue', Number($event.target.value))"
     >
-      <option value="Food">
-        Food
+      
+    <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+        {{ cat.name }}
       </option>
-      <option value="Health">
-        Health
-      </option>
-      <option value="Hygiene">
-        Hygiene
-      </option>
-      <option value="Clothes">
-        Clothes
-      </option> <option value="Transport">
-        Transport
-      </option> <option value="Education">
-        Education
-      </option>
-      <option value="Activities">
-        Activities
-      </option> <option value="Other">
-        Other
-      </option>
-    </select>
+      
+0    </select>
   </div>
 </template>

@@ -1,38 +1,22 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useAuth } from '@/stores/authStore'
 import GenericButton from '@/components/buttons/GenericButton.vue'
 import PasswordInput from '@/components/auth/PasswordInput.vue'
 import EmailInput from '@/components/auth/EmailInput.vue'
 import PageTitle from '@/components/auth/PageTitle.vue'
 
-const email = ref('')
-const password = ref('')
-const errorMessage = ref('')
+const auth = useAuth();
 
-const router = useRouter();
-
-const hardEmail = 'elisei.morosan@emanuel.ro'
-
-if(!localStorage.getItem('password')) {
-    localStorage.setItem('password', 'salut')
+const message = ref("");
+const authentication = async () => {
+  message.value = await auth.checkCredentials(email.value, password.value)
 }
 
-const getPassword = () => localStorage.getItem('password')
+const email = ref("")
+const password = ref("")
 
 
-
-
-const handleLogIn = () => {
-    if (email.value === hardEmail && password.value === getPassword()) {
-        router.push({ name: 'home-page' })
-    } else if (!email.value || !password.value) {
-        errorMessage.value = 'Email and password cannot be empty'
-    }
-    else {
-        errorMessage.value = 'Incorrect email or password'
-    }
-}
 </script>
 
 <template>
@@ -88,6 +72,7 @@ const handleLogIn = () => {
       </div>
 
       <GenericButton
+        @click="authentication"
         title="Log In"
         class="px-[20px]"
       />

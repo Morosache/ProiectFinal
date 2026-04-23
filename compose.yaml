@@ -59,8 +59,8 @@ services:
       - "8089:80"
     environment:
       PMA_HOST: mysql.moneytrack
-      PMA_USER: money
-      PMA_PASSWORD: money
+      PMA_USER: moneytrack
+      PMA_PASSWORD: moneytrack
       UPLOAD_LIMIT: 250M
     restart: always
     
