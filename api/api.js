@@ -6,6 +6,7 @@ import transactionRouter from "./router/transactionRouter.js"
 import categoryRouter from "./router/categoryRouter.js"
 import incomeRouter from "./router/incomeRouter.js"
 import transfersRouter from "./router/transfersRouter.js"
+import settingsRouter from "./router/settingsRouter.js"
 
 const api = express();
 const port = 3000;
@@ -42,6 +43,7 @@ api.use("/transactions", transactionRouter)
 api.use("/categories", categoryRouter)
 api.use("/incomes", incomeRouter)
 api.use("/transfers", transfersRouter)
+api.use("/settings", settingsRouter)
 
 
 api.listen(port, () => {

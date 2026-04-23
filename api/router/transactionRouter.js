@@ -4,7 +4,6 @@ import { sequelize } from "../database/db.js";
 
 const router = Router();
 
-//get transactions
 router.get("/", async (req, res) => {
     try {
         const transactions = await Transaction.findAll({
@@ -17,10 +16,11 @@ router.get("/", async (req, res) => {
     };
 });
 
-// create transaction
 router.post("/", async (req, res) => {
+    const t = await sequelize.transaction();
     try {
-        const transaction = await Transaction.create(req.body);
+        const transaction = await Transaction.create(req.body, { transaction: t });
+        await t.commit();
 
         const transactionWithCategory = await Transaction.findByPk(transaction.id, {
             include: [Category],
@@ -28,6 +28,7 @@ router.post("/", async (req, res) => {
 
         res.status(201).json(transactionWithCategory);
     } catch (err) {
+        await t.rollback();
         res.status(400).json({ error: err.message });
     }
 });

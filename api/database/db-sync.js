@@ -5,6 +5,7 @@ import "./entities/user.model.js";
 import "./entities/transaction.model.js";
 import "./entities/income.model.js"
 import "./entities/transfer.model.js";
+import "./entities/settings.model.js";
 import "./index.js"; // relatiile
 
 sequelize.sync({ force: true }).then(async () => {
