@@ -7,7 +7,7 @@ workflows:
       xcode: latest
       cocoapods: default
     scripts:
-      - name: Install dependencies
+      - name: Install JS dependencies
         script: |
           cd app
           yarn install
@@ -15,19 +15,20 @@ workflows:
         script: |
           cd app
           yarn build
-      - name: Add and sync Capacitor iOS
+      - name: Generate iOS project, sync and build
         script: |
+          set -e
           cd app
+          echo "--- Removing old ios folder ---"
           rm -rf ios
+          echo "--- Adding Capacitor iOS platform ---"
           yarn cap add ios
+          echo "--- Syncing web assets ---"
           yarn cap sync ios
-      - name: Install CocoaPods
-        script: |
-          cd app/ios/App
+          echo "--- Installing CocoaPods ---"
+          cd ios/App
           pod install
-      - name: Build iOS
-        script: |
-          cd app/ios/App
+          echo "--- Building with Xcode ---"
           xcodebuild \
             -workspace App.xcworkspace \
             -scheme App \
