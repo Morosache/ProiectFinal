@@ -5,7 +5,6 @@ workflows:
     environment:
       node: 22
       xcode: latest
-      cocoapods: default
     scripts:
       - name: Install JS dependencies
         script: |
@@ -25,10 +24,8 @@ workflows:
           yarn cap add ios
           echo "--- Syncing web assets ---"
           yarn cap sync ios
-          echo "--- Installing CocoaPods ---"
+          echo "--- Building with Xcode (SPM resolves dependencies automatically) ---"
           cd ios/App
-          pod install
-          echo "--- Building with Xcode ---"
           xcodebuild \
             -workspace App.xcworkspace \
             -scheme App \
