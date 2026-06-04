@@ -15,9 +15,11 @@ workflows:
         script: |
           cd app
           yarn build
-      - name: Sync Capacitor iOS
+      - name: Add and sync Capacitor iOS
         script: |
           cd app
+          rm -rf ios
+          yarn cap add ios
           yarn cap sync ios
       - name: Install CocoaPods
         script: |
