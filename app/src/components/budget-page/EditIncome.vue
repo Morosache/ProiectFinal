@@ -93,8 +93,8 @@ const handleExit = () => {
               <option value="Gift">
                 Gift
               </option>
-              <option value="Investments">
-                Investments
+              <option value="Investment">
+                Investment
               </option>
               <option value="Other">
                 Other

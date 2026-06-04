@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import axios from '@/api'
 
 const API = "http://localhost:3000"
+
 export const useTransaction = defineStore('transaction', {
     state: () => ({
         transactions: [],
     }),
 
     actions: {
-
         async fetchTransactions() {
             const { data } = await axios.get(`${API}/transactions`)
             console.log('raspuns API:', data)
@@ -16,8 +16,7 @@ export const useTransaction = defineStore('transaction', {
         },
 
         async addTransaction(transaction) {
-            const { data } = await axios.post(`${API}/transactions`, transaction)
-            this.transactions.push(data)
+            await axios.post(`${API}/transactions`, transaction)
         },
 
         async removeTransaction(id) {
@@ -27,7 +26,7 @@ export const useTransaction = defineStore('transaction', {
 
         async editTransaction(id, updatedTransaction) {
             const { data } = await axios.put(`${API}/transactions/update/${id}`, updatedTransaction)
-             console.log('raspuns edit:', data)
+            console.log('raspuns edit:', data)
             this.transactions = this.transactions.map(transaction => transaction.id === id ? data : transaction)
         },
     },
@@ -39,5 +38,4 @@ export const useTransaction = defineStore('transaction', {
 
         cardTransactionCost: (state) => state.transactions.filter(item => item.paymentMethod === 'Card').reduce((total, item) => total + Number(item.price), 0),
     }
-}
-)
+})

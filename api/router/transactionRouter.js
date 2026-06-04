@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { Transaction, Category } from "../database/index.js";
 import { sequelize } from "../database/db.js";
+import { broadcast } from "../websocket/ws-server.js";
 
 const router = Router();
 
@@ -25,6 +26,8 @@ router.post("/", async (req, res) => {
         const transactionWithCategory = await Transaction.findByPk(transaction.id, {
             include: [Category],
         });
+
+        broadcast({ type: "transaction:created", data: transactionWithCategory });
 
         res.status(201).json(transactionWithCategory);
     } catch (err) {
@@ -59,6 +62,8 @@ router.delete("/delete/:id", async (req, res) => {
         if (!transaction) return res.status(404).json({ error: "Doesn't exist" });
 
         await transaction.destroy();
+
+        broadcast({ type: "transaction:deleted", data: { id: transaction.id } });
 
         res.json({ message: "Transaction deleted" });
     } catch (err) {

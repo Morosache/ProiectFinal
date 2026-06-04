@@ -4,7 +4,8 @@
 GET {{mainUrl}}/transactions
 Content-Type: application/json 
 
-### POST transaction
+###
+ //POST transaction
 POST {{mainUrl}}/transactions
 Content-Type:application/json
 
@@ -20,7 +21,7 @@ Content-Type:application/json
 
 ### PUT transaction
 
-PUT {{mainUrl}}/transactions/2
+PUT {{mainUrl}}/transactions/1
 Content-Type: application/json
 
 {

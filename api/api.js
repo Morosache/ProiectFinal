@@ -1,51 +1,36 @@
+import "dotenv/config";
 import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 
+import "./websocket/ws-server.js";
+
 import authRouter from "./router/authRouter.js";
-import transactionRouter from "./router/transactionRouter.js"
-import categoryRouter from "./router/categoryRouter.js"
-import incomeRouter from "./router/incomeRouter.js"
-import transfersRouter from "./router/transfersRouter.js"
-import settingsRouter from "./router/settingsRouter.js"
+import transactionRouter from "./router/transactionRouter.js";
+import categoryRouter from "./router/categoryRouter.js";
+import incomeRouter from "./router/incomeRouter.js";
+import transfersRouter from "./router/transfersRouter.js";
+import settingsRouter from "./router/settingsRouter.js";
+import authMiddleware from "./middleware/authMiddleware.js";
 
 const api = express();
 const port = 3000;
 
 api.use(bodyParser.json());
-
-// Add headers before the routes are defined
-api.use(function (req, res, next) {
-  // Website you wish to allow to connect
-  res.setHeader("Access-Control-Allow-Origin", "*");
-
-  // Request methods you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE",
-  );
-
-  // Request headers you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type",
-  );
-
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader("Access-Control-Allow-Credentials", true);
-
-  // Pass to next layer of middleware
-  next();
-});
+api.use(
+    cors({
+        origin: true,
+        credentials: true,
+    })
+);
 
 api.use("/auth", authRouter);
-api.use("/transactions", transactionRouter)
-api.use("/categories", categoryRouter)
-api.use("/incomes", incomeRouter)
-api.use("/transfers", transfersRouter)
-api.use("/settings", settingsRouter)
-
+api.use("/transactions", authMiddleware, transactionRouter);
+api.use("/categories", authMiddleware, categoryRouter);
+api.use("/incomes", authMiddleware, incomeRouter);
+api.use("/transfers", authMiddleware, transfersRouter);
+api.use("/settings", authMiddleware, settingsRouter);
 
 api.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+    console.log(`Example app listening on port ${port}`);
 });

@@ -1,34 +1,77 @@
-import router from "@/router/router"
-import { defineStore } from "pinia"
-import axios from "axios"
+import router from "@/router/router";
+import { defineStore } from "pinia";
+import axios from "@/api";
+
+const API_URL = "http://localhost:3000/auth";
 
 export const useAuth = defineStore("auth", {
     state: () => ({
-        isAuthenticated: false
+        token: localStorage.getItem("token") || "",
+        refreshToken: localStorage.getItem("refreshToken") || "",
+        isAuthenticated: Boolean(localStorage.getItem("token")),
     }),
     actions: {
-        async checkCredentials(email, password) {
+        setTokens(token, refreshToken) {
+            this.token = token;
+            this.refreshToken = refreshToken;
+            localStorage.setItem("token", token);
+            localStorage.setItem("refreshToken", refreshToken);
+            this.isAuthenticated = true;
+        },
+        clearTokens() {
+            this.token = "";
+            this.refreshToken = "";
+            localStorage.removeItem("token");
+            localStorage.removeItem("refreshToken");
+            this.isAuthenticated = false;
+        },
+        async checkCredentials(username, password) {
             try {
-                const response = await axios.post("http://localhost:3000/auth/login", {
-                    email,
-                    password
-                })
-                console.log("Login response:", response.data)
-                if (response.data.success) {
-                    this.isAuthenticated = true
-                    router.push("/home-page") // Redirect to home page after successful login
+                const response = await axios.post(`${API_URL}/login`, {
+                    username,
+                    password,
+                });
+                if (
+                    response.data.success &&
+                    response.data.token &&
+                    response.data.refreshToken
+                ) {
+                    this.setTokens(response.data.token, response.data.refreshToken);
+                    router.push("/home-page");
                 } else {
-                    this.isAuthenticated = false
-                    return response.data.message
+                    this.clearTokens();
+                    return response.data.message;
                 }
-            } catch (error) {
-                this.isAuthenticated = false
-                return error
+            } catch {
+                this.clearTokens();
+                return "An error occurred. Please try again.";
             }
         },
+        async refreshAccessToken() {
+            if (!this.refreshToken) {
+                return false;
+            }
+            try {
+                const response = await axios.post(`${API_URL}/refresh`, {
+                    refreshToken: this.refreshToken,
+                });
+                if (
+                    response.data.success &&
+                    response.data.token &&
+                    response.data.refreshToken
+                ) {
+                    this.setTokens(response.data.token, response.data.refreshToken);
+                    return true;
+                }
+            } catch {
+                this.clearTokens();
+                router.push("/login");
+            }
+            return false;
+        },
         logout() {
-            this.isAuthenticated = false
-            router.push("/login") // Redirect to login page after logout
-        }
-    }
-})
+            this.clearTokens();
+            router.push("/login");
+        },
+    },
+});

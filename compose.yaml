@@ -27,6 +27,7 @@ services:
       CHOKIDAR_INTERVAL: 100
     ports:
       - "3001:3001"
+      - "7878:7878"
     volumes:
       - ./:/moneytrack
       # exclude
@@ -51,6 +52,14 @@ services:
       - ./.docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./database:/database:rw
     restart: always
+
+  android-builder:
+    build: .docker/android-builder
+    container_name: android-builder.moneytrack
+    volumes:
+      - ./app:/workspace
+    profiles:
+      - android
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.3

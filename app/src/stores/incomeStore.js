@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import axios from '@/api'
 
 const API = "http://localhost:3000"
 
@@ -18,7 +18,6 @@ export const useIncome = defineStore('income', {
             const { data } = await axios.post(`${API}/incomes`, income)
             this.incomes.push(data)
         },
-
 
         async removeIncome(id) {
             await axios.delete(`${API}/incomes/delete/${id}`)
@@ -39,7 +38,5 @@ export const useIncome = defineStore('income', {
         cardBudget: (state) => state.incomes.filter(item => item.category === 'Card').reduce((total, item) => total + Number(item.amount), 0),
 
         economiesBudget: (state) => state.incomes.filter(item => item.category === 'Economies').reduce((total, item) => total + Number(item.amount), 0),
-
     })
-
 })

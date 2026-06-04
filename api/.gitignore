@@ -1,4 +1,6 @@
 node_modules
+.env
+coverage
 
 # Yarn install state
 .yarn/install-state.gz

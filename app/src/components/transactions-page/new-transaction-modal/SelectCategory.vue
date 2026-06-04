@@ -1,6 +1,6 @@
 <script setup>
 import { ref ,onMounted } from 'vue'
-import axios from 'axios'
+import axios from '@/api'
 defineProps ({
         inputType: [String, Number, Date],
         modelValue:[String, Number, Date]
@@ -26,11 +26,9 @@ onMounted(async () => {
       class="w-[300px] h-[45px] border border-gray-300 rounded-lg px-3 focus:outline-none text-gray-700"
       @input="emit('update:modelValue', Number($event.target.value))"
     >
-      
-    <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+      <option v-for="cat in categories" :key="cat.id" :value="cat.id">
         {{ cat.name }}
       </option>
-      
-0    </select>
+    </select>
   </div>
 </template>

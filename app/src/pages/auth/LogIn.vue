@@ -3,24 +3,21 @@ import { ref } from 'vue'
 import { useAuth } from '@/stores/authStore'
 import GenericButton from '@/components/buttons/GenericButton.vue'
 import PasswordInput from '@/components/auth/PasswordInput.vue'
-import EmailInput from '@/components/auth/EmailInput.vue'
 import PageTitle from '@/components/auth/PageTitle.vue'
 
-const auth = useAuth();
+const auth = useAuth()
 
-const message = ref("");
+const message = ref("")
 const authentication = async () => {
-  message.value = await auth.checkCredentials(email.value, password.value)
+  message.value = await auth.checkCredentials(username.value, password.value)
 }
 
-const email = ref("")
+const username = ref("")
 const password = ref("")
-
-
 </script>
 
 <template>
-  <div class="flex flex-col items-center mt-[30px] h-full w-full ">
+  <div class="flex flex-col items-center mt-[30px] h-full w-full">
     <img
       src="/public/logo.png"
       alt="logo"
@@ -29,22 +26,28 @@ const password = ref("")
     <PageTitle title="Log In" />
     <form
       class="flex flex-col"
-      @submit.prevent="handleLogIn"
+      @submit.prevent="authentication"
     >
       <div>
         <div class="flex justify-between">
           <label
-            for="email"
+            for="username"
             class="block font-medium mb-2"
-          >Email</label>
+          >Username</label>
           <div
-            v-if="errorMessage"
-            class="text-[12px] text-red-500 "
+            v-if="message"
+            class="text-[12px] text-red-500"
           >
-            {{ errorMessage }}
+            {{ message }}
           </div>
         </div>
-        <EmailInput v-model="email" />
+        <input
+          id="username"
+          v-model="username"
+          placeholder="Username"
+          type="text"
+          class="w-[400px] border border-gray-300 rounded-lg px-3 py-2 focus:outline-none"
+        >
       </div>
 
       <div>
@@ -66,18 +69,15 @@ const password = ref("")
           to="forgot-your-password"
           class="text-[12px] font-medium"
         >
-          Forgot your Password? Reset
-          it.
+          Forgot your Password? Reset it.
         </router-link>
       </div>
 
       <GenericButton
-        @click="authentication"
         title="Log In"
         class="px-[20px]"
+        @click="authentication"
       />
     </form>
   </div>
 </template>
-
-<style scoped></style>
